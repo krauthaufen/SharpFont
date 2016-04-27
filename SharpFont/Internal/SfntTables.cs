@@ -30,8 +30,8 @@ namespace SharpFont {
 
         public static TableRecord[] ReadFaceHeader (DataReader reader) {
             var tag = reader.ReadUInt32BE();
-            if (tag != TTFv1 && tag != TTFv2 && tag != FourCC.True)
-                throw new InvalidFontException("Unknown or unsupported sfnt version.");
+            //if (tag != TTFv1 && tag != TTFv2 && tag != FourCC.True)
+            //    throw new InvalidFontException("Unknown or unsupported sfnt version.");
 
             var tableCount = reader.ReadUInt16BE();
             reader.Skip(6); // skip the rest of the header
@@ -232,16 +232,17 @@ namespace SharpFont {
                 var length = reader.ReadUInt16BE();
                 var offset = reader.ReadUInt16BE();
 
-                // we only support Unicode strings
-                if (platform == PlatformID.Microsoft) {
-                    if (encoding != WindowsEncoding.UnicodeBmp && encoding != WindowsEncoding.UnicodeFull)
-                        continue;
+                //// we only support Unicode strings
+                //if (true || platform == PlatformID.Microsoft)
+                //{
+                //    if (encoding != WindowsEncoding.UnicodeBmp && encoding != WindowsEncoding.UnicodeFull)
+                //        continue;
 
-                    if (language != CultureInfo.CurrentCulture.LCID)
-                        continue;
-                }
-                else if (platform != PlatformID.Unicode)
-                    continue;
+                //    if (language != CultureInfo.CurrentCulture.LCID)
+                //        continue;
+                //}
+                //else if (platform != PlatformID.Unicode)
+                //    continue;
 
                 stringData[stringDataCount++] = new StringData {
                     Name = name,
@@ -683,6 +684,7 @@ namespace SharpFont {
 
     static class PlatformID {
         public const int Unicode = 0;
+        public const int Ascii = 1;
         public const int Microsoft = 3;
     }
 
